@@ -69,6 +69,11 @@ header .credits {
     margin-bottom: 16px;
 }
 
+header .controls {
+    display: flex;
+    gap: 8px;
+}
+
 header .credits a {
     color: var(--accent-color);
     text-decoration: none;

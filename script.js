@@ -227,7 +227,7 @@ function buildBracket() {
     container.appendChild(svg);
 }
 
-function advanceTeam(teamName) {
+function advanceTeam(teamName, animate = true, isReplay = false) {
     const level = activeLevels[teamName];
     const index = activeIndices[teamName];
 
@@ -250,17 +250,22 @@ function advanceTeam(teamName) {
     if (img.moveTimeout1) clearTimeout(img.moveTimeout1);
     if (img.moveTimeout2) clearTimeout(img.moveTimeout2);
 
-    img.style.transition = 'transform 0.25s linear, filter 0.4s ease, opacity 0.4s ease';
-    img.style.transform = `translate(${pInter.x}px, ${pInter.y}px)`;
-    
-    img.moveTimeout1 = setTimeout(() => {
-        img.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease, opacity 0.4s ease';
-        img.style.transform = `translate(${pParent.x}px, ${pParent.y}px)`;
+    if (animate) {
+        img.style.transition = 'transform 0.25s linear, filter 0.4s ease, opacity 0.4s ease';
+        img.style.transform = `translate(${pInter.x}px, ${pInter.y}px)`;
         
-        img.moveTimeout2 = setTimeout(() => {
-            img.style.transition = ''; 
+        img.moveTimeout1 = setTimeout(() => {
+            img.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease, opacity 0.4s ease';
+            img.style.transform = `translate(${pParent.x}px, ${pParent.y}px)`;
+            
+            img.moveTimeout2 = setTimeout(() => {
+                img.style.transition = ''; 
+            }, 250);
         }, 250);
-    }, 250);
+    } else {
+        img.style.transition = 'none';
+        img.style.transform = `translate(${pParent.x}px, ${pParent.y}px)`;
+    }
     
     // Update internal state
     activeLevels[teamName] = parentLevel;
@@ -278,7 +283,10 @@ function advanceTeam(teamName) {
     if (siblingNode.team) {
         siblingNode.loser = true;
         const siblingImg = teamElements[siblingNode.team];
-        if (siblingImg) siblingImg.classList.add('loser');
+        if (siblingImg) {
+            siblingImg.classList.add('loser');
+            if (!animate) siblingImg.style.transition = 'none';
+        }
         
         const loserPath = document.getElementById(`line-${level}-${siblingIndex}`);
         if (loserPath) {
@@ -289,8 +297,13 @@ function advanceTeam(teamName) {
 
     if (parentLevel === 0) {
         decideWinner(teamName);
-    } else {
+    } else if (!isReplay) {
         clearWinner();
+    }
+
+    if (!isReplay) {
+        clickHistory.push(teamName);
+        saveState();
     }
 }
 
@@ -312,14 +325,48 @@ function clearWinner() {
 }
 
 document.getElementById('reset-btn').addEventListener('click', () => {
+    clickHistory = [];
+    saveState();
     initTree();
     clearWinner();
     buildBracket();
 });
 
+document.getElementById('undo-btn').addEventListener('click', () => {
+    if (clickHistory.length === 0) return;
+    clickHistory.pop();
+    saveState();
+    
+    initTree();
+    clearWinner();
+    buildBracket();
+    
+    clickHistory.forEach(team => advanceTeam(team, false, true));
+});
+
+let clickHistory = [];
+
+function saveState() {
+    localStorage.setItem('bracketHistory', JSON.stringify(clickHistory));
+}
+
+function loadState() {
+    const saved = localStorage.getItem('bracketHistory');
+    if (saved) {
+        try {
+            const history = JSON.parse(saved);
+            clickHistory = history;
+            clickHistory.forEach(team => advanceTeam(team, false, true));
+        } catch (e) {
+            console.error("Error loading state", e);
+        }
+    }
+}
+
 // Initialize
 initTree();
 buildBracket();
+loadState();
 
 // Tooltip Logic
 const tooltip = document.getElementById('tooltip');
