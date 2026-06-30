@@ -74,26 +74,30 @@ const espnDates = [
     "04 JUL 18:00", "04 JUL 14:00", "05 JUL 17:00", "05 JUL 21:00"
 ];
 
+const datesL4 = [
+    "04 JUL 14:00", "04 JUL 18:00", // V1, V2
+    "05 JUL 17:00", "05 JUL 21:00", // V3, V4
+    "06 JUL 16:00", "06 JUL 21:00", // V5, V6
+    "07 JUL 13:00", "07 JUL 17:00"  // V7, V8
+];
+
+const datesL3 = [
+    "09 JUL 17:00", // V1 vs V2
+    "11 JUL 18:00", // V3 vs V4
+    "10 JUL 16:00", // V5 vs V6
+    "11 JUL 22:00"  // V7 vs V8
+];
+
+const datesL2 = [
+    "14 JUL 16:00",
+    "15 JUL 16:00"
+];
+
 function getMatchDate(level, parentIndex) {
     if (level === 5) return espnDates[parentIndex] || "A DEFINIR";
-    
-    if (level === 4) {
-        const day = 4 + Math.floor(parentIndex / 2);
-        const time = parentIndex % 2 === 0 ? "16:00" : "20:00";
-        return `${day.toString().padStart(2, '0')} JUL ${time}`;
-    }
-    
-    if (level === 3) {
-        const day = 9 + Math.floor(parentIndex / 2);
-        const time = parentIndex % 2 === 0 ? "17:00" : "21:00";
-        return `${day.toString().padStart(2, '0')} JUL ${time}`;
-    }
-    
-    if (level === 2) {
-        const day = 14 + parentIndex;
-        return `${day.toString().padStart(2, '0')} JUL 16:00`;
-    }
-    
+    if (level === 4) return datesL4[parentIndex] || "A DEFINIR";
+    if (level === 3) return datesL3[parentIndex] || "A DEFINIR";
+    if (level === 2) return datesL2[parentIndex] || "A DEFINIR";
     if (level === 1) return `19 JUL 16:00`;
     
     return "";
