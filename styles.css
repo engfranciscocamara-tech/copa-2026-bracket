@@ -270,6 +270,16 @@ header .credits a:hover {
     text-transform: uppercase;
 }
 
+.final-date {
+    color: var(--text-secondary);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 8px;
+    opacity: 0.8;
+    text-transform: uppercase;
+}
+
 /* Responsive adjustments for mobile */
 @media (max-width: 768px) {
     header {
