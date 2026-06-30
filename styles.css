@@ -258,3 +258,34 @@ header .credits a:hover {
     opacity: 1;
     transform: translate(-50%, 0);
 }
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    header {
+        top: 10px;
+        left: 10px;
+        right: 10px; /* Allows header to flow naturally within screen width */
+        padding: 12px 16px;
+        border-radius: 12px;
+    }
+    header h1 {
+        font-size: 1.1rem;
+        margin-bottom: 2px;
+    }
+    header p {
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+    }
+    header .credits {
+        font-size: 0.65rem;
+        margin-bottom: 10px;
+    }
+    .glass-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    #bracket-svg {
+        /* Shift bracket down on portrait mobile screens to avoid overlap */
+        top: 55%;
+    }
+}
