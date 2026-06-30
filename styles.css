@@ -272,7 +272,7 @@ header .credits a:hover {
 
 .final-date {
     position: absolute;
-    top: 75px;
+    top: 130px;
     left: 50%;
     transform: translateX(-50%);
     color: var(--text-secondary);
