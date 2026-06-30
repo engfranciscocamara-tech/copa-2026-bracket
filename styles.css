@@ -271,13 +271,22 @@ header .credits a:hover {
 }
 
 .final-date {
+    position: absolute;
+    top: 75px;
+    left: 50%;
+    transform: translateX(-50%);
     color: var(--text-secondary);
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 1px;
-    margin-top: 8px;
     opacity: 0.8;
     text-transform: uppercase;
+    white-space: nowrap;
+    transition: opacity 0.5s ease;
+}
+
+.trophy-container.decided .final-date {
+    opacity: 0;
 }
 
 /* Responsive adjustments for mobile */
