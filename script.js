@@ -66,6 +66,23 @@ function polarToCartesian(r, degrees) {
     };
 }
 
+// Dates based on ESPN data
+const espnDates = [
+    "30 JUN 18:00", "02 JUL 20:00", "02 JUL 16:00", "01 JUL 21:00",
+    "01 JUL 17:00", "30 JUN 14:00", "30 JUN 22:00", "01 JUL 13:00",
+    "03 JUL 19:00", "03 JUL 15:00", "03 JUL 00:00", "03 JUL 22:30",
+    "04 JUL 18:00", "04 JUL 14:00", "05 JUL 17:00", "05 JUL 21:00"
+];
+
+function getMatchDate(level, parentIndex) {
+    if (level === 5) return espnDates[parentIndex] || "A DEFINIR";
+    if (level === 4) return `0${6 + Math.floor(parentIndex/2)} JUL`;
+    if (level === 3) return `0${9 + Math.floor(parentIndex/2)} JUL`;
+    if (level === 2) return `1${4 + Math.floor(parentIndex/2)} JUL`;
+    if (level === 1) return `19 JUL`;
+    return "";
+}
+
 function buildBracket() {
     const container = document.getElementById('bracket-container');
     const oldSvg = document.getElementById('bracket-svg');
@@ -129,6 +146,26 @@ function buildBracket() {
             path.setAttribute('fill', 'none');
             path.id = `line-${l}-${i}`;
             pathsGroup.appendChild(path);
+
+            // Match Date/Time Badge
+            if (i % 2 === 0 && rParent > 0) {
+                const rBadge = rParent + 12;
+                const pBadge = polarToCartesian(rBadge, angleParent);
+                
+                const text = document.createElementNS(SVG_NS, 'text');
+                text.setAttribute('x', pBadge.x);
+                text.setAttribute('y', pBadge.y);
+                text.setAttribute('class', 'match-time');
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('alignment-baseline', 'middle');
+                
+                let rot = angleParent;
+                if (rot > 90 && rot < 270) rot += 180;
+                text.setAttribute('transform', `rotate(${rot}, ${pBadge.x}, ${pBadge.y})`);
+                
+                text.textContent = getMatchDate(l, parentIndex);
+                pathsGroup.appendChild(text);
+            }
 
             // Dot at parent (only draw once per parent, so when i is even)
             if (i % 2 === 0 && l > 1) {
