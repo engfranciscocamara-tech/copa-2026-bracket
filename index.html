@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copa do Mundo 2026 - Fase Eliminatória</title>
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Meta tags for SEO and sharing -->
+    <meta name="description" content="Visualização circular interativa da fase eliminatória da Copa do Mundo de 2026.">
+    <meta property="og:title" content="Copa do Mundo 2026 - Knockout Stage">
+    <meta property="og:description" content="Acompanhe e simule os confrontos da Copa do Mundo de 2026 em uma visualização circular.">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Copa do Mundo 2026</h1>
+            <p>Fase Eliminatória</p>
+            <p class="credits">Inspiração Original: <a href="https://x.com/mkobach/status/2071353471295430705" target="_blank" rel="noopener noreferrer">@mkobach</a> | <a href="https://fwc2026-knockout.vercel.app/" target="_blank" rel="noopener noreferrer">fwc2026-knockout.vercel.app</a></p>
+            <div class="controls">
+                <button id="reset-btn" class="glass-btn">Resetar Confrontos</button>
+            </div>
+        </header>
+
+        <main class="bracket-container" id="bracket-container">
+            <!-- SVG will be injected here by script.js -->
+            <div id="trophy-container" class="trophy-container">
+                <img src="—Pngtree—world cup trophy_8804429.png" class="trophy-icon" id="trophy-icon" alt="Trophy">
+                <div class="winner-name" id="winner-name"></div>
+            </div>
+        </main>
+    </div>
+
+    <div id="tooltip" class="custom-tooltip"></div>
+    <script src="script.js"></script>
+</body>
+</html>
