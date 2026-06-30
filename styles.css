@@ -327,11 +327,12 @@ header .credits a:hover {
         top: 55%;
     }
     .trophy-icon {
-        width: 55px;
+        width: 40px;
     }
     .final-date {
-        top: 55px;
+        top: 42px;
         font-size: 8px;
+        transform: translateX(-50%) scale(0.7);
     }
     .trophy-container.decided .trophy-icon {
         transform: translate(-50%, calc(-50% - 50px)) scale(1.3);
