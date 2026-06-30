@@ -76,10 +76,26 @@ const espnDates = [
 
 function getMatchDate(level, parentIndex) {
     if (level === 5) return espnDates[parentIndex] || "A DEFINIR";
-    if (level === 4) return `0${6 + Math.floor(parentIndex/2)} JUL`;
-    if (level === 3) return `0${9 + Math.floor(parentIndex/2)} JUL`;
-    if (level === 2) return `1${4 + Math.floor(parentIndex/2)} JUL`;
-    if (level === 1) return `19 JUL`;
+    
+    if (level === 4) {
+        const day = 4 + Math.floor(parentIndex / 2);
+        const time = parentIndex % 2 === 0 ? "16:00" : "20:00";
+        return `${day.toString().padStart(2, '0')} JUL ${time}`;
+    }
+    
+    if (level === 3) {
+        const day = 9 + Math.floor(parentIndex / 2);
+        const time = parentIndex % 2 === 0 ? "17:00" : "21:00";
+        return `${day.toString().padStart(2, '0')} JUL ${time}`;
+    }
+    
+    if (level === 2) {
+        const day = 14 + parentIndex;
+        return `${day.toString().padStart(2, '0')} JUL 16:00`;
+    }
+    
+    if (level === 1) return `19 JUL 16:00`;
+    
     return "";
 }
 
